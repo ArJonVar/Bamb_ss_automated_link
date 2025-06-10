@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 from clients.grid import grid
 from cryptography.fernet import Fernet
+import base64
 
 config = json.loads(Path("configs/config.json").read_text())
 import logging
