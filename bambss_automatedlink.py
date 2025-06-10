@@ -85,14 +85,16 @@ class BambSSLink:
         dir_df = pd.DataFrame(dir)
         return dir_df   
     def add_sageids(self):
-        '''the df comes with default options, the first non default option we need to add is sage/employee numbers'''
+        '''the df comes with default options, the first non default option we need to add is sage/employee numbers. hard to make access work to this field, have to use other api key'''
+        bamboo = PyBambooHR.PyBambooHR(subdomain="dowbuilt", api_key=base64.b64decode(self.b2t))
+        
         sageids = [
-            self.bamboo.get_employee(id, field_list=["customSageID"]).get("customSageID")
+            bamboo.get_employee(id, field_list=["customSageID"]).get("customSageID")
             for id in self.dir_df_raw["id"]
         ]
 
         self.dir_df_raw["sage_id"] = sageids
-        logger.info(f"{self.timestamp()}  sageids imported from Bamboo API")    
+        logger.info(f"{self.timestamp()}  sageids imported from Bamboo API")      
     def add_employee_ids(self):
         '''the df comes with default options, the first non default option we need to add is employee numbers'''
         employee_numbers = [
